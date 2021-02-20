@@ -1,0 +1,10 @@
+insert into sale(customer_id, item_id, date) values(1, 3, '2021-02-19');
+insert into sale(customer_id, item_id, date) values(2, 1, '2021-02-19');
+insert into sale(customer_id, item_id, date) values(3, 1, '2021-02-20');
+insert into sale(customer_id, item_id, date) values(1, 4, '2021-02-20');
+insert into sale(customer_id, item_id, date) values(3, 2, '2021-02-21');
+insert into sale(customer_id, item_id, date) values(4, 5, '2021-02-22');
+insert into sale(customer_id, item_id, date) values(1, 5, '2021-02-22');
+insert into sale(customer_id, item_id, date) values(5, 4, '2021-02-23');
+insert into sale(customer_id, item_id, date) values(5, 5, '2021-02-23');
+insert into sale(customer_id, item_id, date) values(4, 3, '2021-02-24');

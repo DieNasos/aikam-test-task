@@ -1,0 +1,78 @@
+{
+  "totalDays":5,
+  "avgExpenses":92,
+  "totalExpenses":460,
+  "customers":[
+    {
+      "purchases":[
+        {
+          "name":"Milk",
+          "expenses":60
+        },
+        {
+          "name":"Eggs",
+          "expenses":60
+        }
+      ],
+      "name":"Aleksandrov Aleksandr",
+      "totalExpenses":120
+    },
+    {
+      "purchases":[
+        {
+          "name":"Chocolate",
+          "expenses":50
+        },
+        {
+          "name":"Icecream",
+          "expenses":40
+        }
+      ],
+      "name":"Leonteva Margarita",
+      "totalExpenses":90
+    },
+    {
+      "purchases":[
+        {
+          "name":"Milk",
+          "expenses":60
+        }
+      ],
+      "name":"Petrov Petr",
+      "totalExpenses":60
+    },
+    {
+      "purchases":[
+        {
+          "name":"Bread",
+          "expenses":30
+        },
+        {
+          "name":"Chocolate",
+          "expenses":50
+        },
+        {
+          "name":"Icecream",
+          "expenses":40
+        }
+      ],
+      "name":"Ivanov Ivan",
+      "totalExpenses":120
+    },
+    {
+      "purchases":[
+        {
+          "name":"Icecream",
+          "expenses":40
+        },
+        {
+          "name":"Bread",
+          "expenses":30
+        }
+      ],
+      "name":"Krasnikov Aleksandr",
+      "totalExpenses":70
+    }
+  ],
+  "type":"stat"
+}
