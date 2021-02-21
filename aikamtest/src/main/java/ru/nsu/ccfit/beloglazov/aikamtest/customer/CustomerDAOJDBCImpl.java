@@ -2,6 +2,7 @@ package ru.nsu.ccfit.beloglazov.aikamtest.customer;
 
 import java.sql.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class CustomerDAOJDBCImpl implements CustomerDAO {
     private final Connection connection;
@@ -35,8 +36,8 @@ public class CustomerDAOJDBCImpl implements CustomerDAO {
     }
 
     @Override
-    public LinkedList<Customer> getAllCustomers() throws SQLException {
-        LinkedList<Customer> customers = new LinkedList<>();
+    public List<Customer> getAllCustomers() throws SQLException {
+        List<Customer> customers = new LinkedList<>();
         String sql = "SELECT * FROM customer";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -70,8 +71,8 @@ public class CustomerDAOJDBCImpl implements CustomerDAO {
     }
 
     @Override
-    public LinkedList<Customer> getCustomersByLastName(String lastName) throws SQLException {
-        LinkedList<Customer> customers = new LinkedList<>();
+    public List<Customer> getCustomersByLastName(String lastName) throws SQLException {
+        List<Customer> customers = new LinkedList<>();
         String sql = "SELECT * FROM customer WHERE last_name = ?";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setString(1, lastName);

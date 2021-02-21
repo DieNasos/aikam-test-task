@@ -2,6 +2,7 @@ package ru.nsu.ccfit.beloglazov.aikamtest.sale;
 
 import java.sql.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class SaleDAOImpl implements SaleDAO {
     private final Connection connection;
@@ -37,8 +38,8 @@ public class SaleDAOImpl implements SaleDAO {
     }
 
     @Override
-    public LinkedList<Sale> getAllSales() throws SQLException {
-        LinkedList<Sale> sales = new LinkedList<>();
+    public List<Sale> getAllSales() throws SQLException {
+        List<Sale> sales = new LinkedList<>();
         String sql = "SELECT * FROM sale";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -56,8 +57,8 @@ public class SaleDAOImpl implements SaleDAO {
     }
 
     @Override
-    public LinkedList<Integer> getCustomersWhichBought(int itemID, int minTimes) throws SQLException {
-        LinkedList<Integer> customers = new LinkedList<>();
+    public List<Integer> getCustomersWhichBought(int itemID, int minTimes) throws SQLException {
+        List<Integer> customers = new LinkedList<>();
         String sql = "WITH T1 AS (SELECT * FROM sale WHERE item_id = ?)," +
                 "T2 AS (SELECT COUNT(*) AS COUNT, customer_id FROM T1 GROUP BY customer_id)" +
                 "SELECT * FROM T2 WHERE count >= ?";
@@ -75,8 +76,8 @@ public class SaleDAOImpl implements SaleDAO {
     }
 
     @Override
-    public LinkedList<Integer> getCustomersWithExpensesBetween(int minExpenses, int maxExpenses) throws SQLException {
-        LinkedList<Integer> customers = new LinkedList<>();
+    public List<Integer> getCustomersWithExpensesBetween(int minExpenses, int maxExpenses) throws SQLException {
+        List<Integer> customers = new LinkedList<>();
         String sql = "WITH T1 AS (SELECT * FROM sale)," +
                 "T2 AS (SELECT id, cost FROM item)," +
                 "T3 AS (SELECT * FROM T1 FULL JOIN T2 ON T1.item_id = T2.id)," +
@@ -97,8 +98,8 @@ public class SaleDAOImpl implements SaleDAO {
     }
 
     @Override
-    public LinkedList<Integer> getBadCustomers(int number) throws SQLException {
-        LinkedList<Integer> customers = new LinkedList<>();
+    public List<Integer> getBadCustomers(int number) throws SQLException {
+        List<Integer> customers = new LinkedList<>();
         String sql = "SELECT customer_id, COUNT(*) AS COUNT FROM sale GROUP BY customer_id ORDER BY COUNT;";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
@@ -108,16 +109,16 @@ public class SaleDAOImpl implements SaleDAO {
         }
         ps.close();
         rs.close();
-        int c_size = customers.size();
-        for (int i = number + 1; i <= c_size; i++) {
-            customers.removeLast();
+        int cSize = customers.size();
+        for (int i = 1; i <= cSize - number; i++) {
+            customers.remove(cSize - i);
         }
         return customers;
     }
 
     @Override
-    public LinkedList<Sale> getSalesBetweenDates(Date date1, Date date2) throws SQLException {
-        LinkedList<Sale> sales = new LinkedList<>();
+    public List<Sale> getSalesBetweenDates(Date date1, Date date2) throws SQLException {
+        List<Sale> sales = new LinkedList<>();
         String sql = "SELECT * FROM sale WHERE date >= ? AND date <= ?;";
         PreparedStatement ps = connection.prepareStatement(sql);
         ps.setDate(1, date1);

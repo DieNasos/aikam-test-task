@@ -5,8 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.sql.Date;
-import java.util.HashMap;
-import java.util.LinkedList;
+import java.util.*;
 import javafx.util.Pair;
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -15,10 +14,16 @@ import ru.nsu.ccfit.beloglazov.aikamtest.item.Item;
 import ru.nsu.ccfit.beloglazov.aikamtest.search.*;
 
 public class JsonParser {
-    public LinkedList<SearchArg> parseForSearch(String fileName) throws IOException {
+    private final String outputFileName;
+
+    public JsonParser(String outputFileName) {
+        this.outputFileName = outputFileName;
+    }
+
+    public List<SearchArg> parseForSearch(String fileName) throws IOException {
         JSONObject obj = getJsonObjectFromFile(fileName);
         JSONArray criterias = obj.getJSONArray("criterias");
-        LinkedList<SearchArg> args = new LinkedList<>();
+        List<SearchArg> args = new LinkedList<>();
 
         for (int i = 0; i < criterias.length(); i++) {
             JSONObject criteria = criterias.getJSONObject(i);
@@ -55,7 +60,7 @@ public class JsonParser {
         return new Pair<>(date1, date2);
     }
 
-    public void printForSearch(LinkedList<SearchResult> results, String fileName) {
+    public void printForSearch(List<SearchResult> results) {
         JSONArray jAllResults = new JSONArray();
 
         for (SearchResult result : results) {
@@ -129,7 +134,7 @@ public class JsonParser {
                     jAllResults.put(jResults4);
                     break;
                 default:
-                    printError("Unknown type of search argument: " + result.getArg().getType(), fileName);
+                    printError("Unknown type of search argument: " + result.getArg().getType());
                     return;
             }
         }
@@ -137,10 +142,10 @@ public class JsonParser {
         JSONObject jObj = new JSONObject();
         jObj.put("type", "search");
         jObj.put("results", jAllResults);
-        printJsonObjectInFile(jObj, fileName);
+        printJsonObjectInFile(jObj);
     }
 
-    public void printForStat(long daysBetween, HashMap<Customer, LinkedList<Item>> salesMap, String fileName) {
+    public void printForStat(long daysBetween, Map<Customer, List<Item>> salesMap) {
         JSONArray jAllCustomers = new JSONArray();
         int totalExpenses = 0;
 
@@ -170,14 +175,14 @@ public class JsonParser {
         jObj.put("customers", jAllCustomers);
         jObj.put("totalExpenses", totalExpenses);
         jObj.put("avgExpenses", (double) totalExpenses / (double) salesMap.size());
-        printJsonObjectInFile(jObj, fileName);
+        printJsonObjectInFile(jObj);
     }
 
-    public void printError(String message, String fileName) {
+    public void printError(String message) {
         JSONObject jObj = new JSONObject();
         jObj.put("type", "error");
         jObj.put("message", message);
-        printJsonObjectInFile(jObj, fileName);
+        printJsonObjectInFile(jObj);
     }
 
     private JSONObject getJsonObjectFromFile(String fileName) throws IOException {
@@ -185,21 +190,11 @@ public class JsonParser {
         return new JSONObject(jsonString);
     }
 
-    private void printJsonObjectInFile(JSONObject jObj, String fileName) {
-        FileOutputStream outputStream = null;
-        try {
-            outputStream = new FileOutputStream(fileName);
-            outputStream.write(jObj.toString().getBytes());
+    private void printJsonObjectInFile(JSONObject jObj) {
+        try(FileOutputStream fos = new FileOutputStream(outputFileName)) {
+            fos.write(jObj.toString().getBytes());
         } catch (IOException e) {
             e.printStackTrace();
-        } finally {
-            if (outputStream != null) {
-                try {
-                    outputStream.close();
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-            }
         }
     }
 }

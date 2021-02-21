@@ -2,6 +2,7 @@ package ru.nsu.ccfit.beloglazov.aikamtest.item;
 
 import java.sql.*;
 import java.util.LinkedList;
+import java.util.List;
 
 public class ItemDAOImpl implements ItemDAO {
     private final Connection connection;
@@ -35,8 +36,8 @@ public class ItemDAOImpl implements ItemDAO {
     }
 
     @Override
-    public LinkedList<Item> getAllItems() throws SQLException {
-        LinkedList<Item> items = new LinkedList<>();
+    public List<Item> getAllItems() throws SQLException {
+        List<Item> items = new LinkedList<>();
         String sql = "SELECT * FROM item";
         PreparedStatement ps = connection.prepareStatement(sql);
         ResultSet rs = ps.executeQuery();
